@@ -1,20 +1,19 @@
-# Medical-Transformer-pytorch 
+# Medical-Transformer
 
- <a href="https://arxiv.org/abs/2006.04878"> Paper (Conference) </a> 
+ <a href="https://arxiv.org/abs/2006.04878"> </a> 
 
-Official Pytorch Code for the paper [""](https://arxiv.org/) 
-Journal Extension:
+Pytorch Code for the paper 
 ["Medical Transformer: Gated Axial-Attention for
 Medical Image Segmentation"](https://arxiv.org/)
 
-# About this repo:
+### About this repo:
 
 This repo hosts the code for the following networks:
 
-1) Gated Axial Attention U-net
+1) Gated Axial Attention U-Net
 2) MedT
 
-# Introduction
+## Introduction
 
 Majority of existing Transformer-based network architectures proposed for vision applications require large-scale
 datasets to train properly. However, compared to the datasets for vision
@@ -40,9 +39,9 @@ git clone https://github.com/jeya-maria-jose/KiU-Net-pytorch
 cd KiU-Net-pytorch
 ```
 
-The code is tested in Python 3.6.10, Pytorch 1.4.0
+The code is stable using Python 3.6.10, Pytorch 1.4.0
 
-To install all the dependecies using conda:
+To install all the dependencies using conda:
 
 ```bash
 conda env create -f environment.yml
@@ -55,7 +54,7 @@ conda activate medt
 2) MoNuSeG Dataset - <a href="https://monuseg.grand-challenge.org/Data/"> Link (Original)</a> 
 3) Brain Anatomy US dataset introduced in the paper will be made public soon !
 
-# Using the Code for your dataset
+## Using the Code for your dataset
 
 ### Dataset Preparation
 
@@ -103,33 +102,23 @@ python train.py --train_dataset "enter train directory" --val_dataset "enter val
 ```
 
 ```bash
-Change modelname to medt or logo to train them
+Change modelname to MedT or logo to train them
 ```
 
 ### Testing Command:
 
 ```bash 
-python test.py --loaddirec "./saved_model_path/model_name.pth" --val_dataset "test dataset directory" --direc 'path for results to be saved' --batch_size 1 --modelname "kiunet" --imgsize 128 --gray "no"
+python test.py --loaddirec "./saved_model_path/model_name.pth" --val_dataset "test dataset directory" --direc 'path for results to be saved' --batch_size 1 --modelname "gatedaxialunet" --imgsize 128 --gray "no"
 ```
 
 The results including predicted segmentations maps will be placed in the results folder along with the model weights. Run the performance metrics code in MATLAB for calculating F1 Score and mIoU.
 
 ### Acknowledgement:
 
-The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="<a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet"> axial-deeplab </a>.
+The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="<a href="https://github.com/cosmic-cortex/pytorch-UNet"> axial-deeplab </a>.
 
 # Citation:
 
-```bash 
-@inproceedings{valanarasu2020kiu,
-  title={Medical Transformer: Gated Axial-Attention for Medical Image Segmentation},
-  author={Valanarasu, Jeya Maria Jose and Sindagi, Vishwanath A and Hacihaliloglu, Ilker and Patel, Vishal M},
-  booktitle={Medical Image Computing and Computer Assisted Intervention--MICCAI 2020: 23rd International Conference, Lima, Peru, October 4--8, 2020, Proceedings, Part IV 23},
-  pages={363--373},
-  year={2020},
-  organization={Springer}
-}
-```
+To add
 
-```
-Open an issue in case of any queries or mail me directly.
+Open an issue or mail me directly in case of any queries or suggestions. 
