@@ -35,8 +35,8 @@ respectively. The proposed Medical Transformer (MedT) uses LoGo training strateg
 
 - Clone this repository:
 ```bash
-git clone https://github.com/jeya-maria-jose/KiU-Net-pytorch
-cd KiU-Net-pytorch
+git clone https://github.com/jeya-maria-jose/Medical-Transformer
+cd Medical-Transformer
 ```
 
 The code is stable using Python 3.6.10, Pytorch 1.4.0
