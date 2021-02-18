@@ -1,0 +1,2 @@
+python train.py --train_dataset "/media/jeyamariajose/7888230b-5c10-4229-90f2-c78bdae9c5de/Data/Brain_Ultrasound/Final/resized/train/" --val_dataset "/media/jeyamariajose/7888230b-5c10-4229-90f2-c78bdae9c5de/Data/Brain_Ultrasound/Final/resized/test/" --direc "./results/axial128_en/" --batch_size 4 --modelname "logo" --epoch 401 --save_freq 50 --learning_rate 0.0001 --imgsize 128
+
