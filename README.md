@@ -52,7 +52,7 @@ conda activate medt
 
 1) GLAS Dataset - <a href="https://warwick.ac.uk/fac/sci/dcs/research/tia/glascontest/"> Link (Original) </a> | <a href = "https://drive.google.com/drive/folders/1dwhjqE0vC0KL_siGUeqMUq08KyO1bPKH?usp=sharing"> Link (Resized) </a> 
 2) MoNuSeG Dataset - <a href="https://monuseg.grand-challenge.org/Data/"> Link (Original)</a> 
-3) Brain Anatomy US dataset introduced in the paper will be made public soon !
+3) Brain Anatomy US dataset from the paper will be made public soon !
 
 ## Using the Code for your dataset
 
