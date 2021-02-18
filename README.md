@@ -115,7 +115,7 @@ The results including predicted segmentations maps will be placed in the results
 
 ### Acknowledgement:
 
-The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="<a href="https://github.com/cosmic-cortex/pytorch-UNet"> axial-deeplab </a>.
+The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="<https://github.com/csrhddlam/axial-deeplab"> axial-deeplab </a>.
 
 # Citation:
 
