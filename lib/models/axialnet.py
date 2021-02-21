@@ -35,9 +35,7 @@ class AxialAttention(nn.Module):
                                            padding=0, bias=False)
         self.bn_qkv = nn.BatchNorm1d(out_planes * 2)
         self.bn_similarity = nn.BatchNorm2d(groups * 3)
-        #self.bn_qk = nn.BatchNorm2d(groups)
-        #self.bn_qr = nn.BatchNorm2d(groups)
-        #self.bn_kr = nn.BatchNorm2d(groups)
+
         self.bn_output = nn.BatchNorm1d(out_planes * 2)
 
         # Position embedding
@@ -159,9 +157,7 @@ class AxialAttention_dynamic(nn.Module):
         qr = torch.einsum('bgci,cij->bgij', q, q_embedding)
         kr = torch.einsum('bgci,cij->bgij', k, k_embedding).transpose(2, 3)
         qk = torch.einsum('bgci, bgcj->bgij', q, k)
-        # print(qk.shape, qr.shape, kr.shape)
-        # import pdb
-        # pdb.set_trace()
+
 
         # multiply by factors
         qr = torch.mul(qr, self.f_qr)
@@ -215,17 +211,9 @@ class AxialAttention_wopos(nn.Module):
                                            padding=0, bias=False)
         self.bn_qkv = nn.BatchNorm1d(out_planes * 2)
         self.bn_similarity = nn.BatchNorm2d(groups )
-        #self.bn_qk = nn.BatchNorm2d(groups)
-        #self.bn_qr = nn.BatchNorm2d(groups)
-        #self.bn_kr = nn.BatchNorm2d(groups)
+
         self.bn_output = nn.BatchNorm1d(out_planes * 1)
 
-        # Position embedding
-        # self.relative = nn.Parameter(torch.randn(self.group_planes * 2, kernel_size * 2 - 1), requires_grad=True)
-        # query_index = torch.arange(kernel_size).unsqueeze(0)
-        # key_index = torch.arange(kernel_size).unsqueeze(1)
-        # relative_index = key_index - query_index + kernel_size - 1
-        # self.register_buffer('flatten_index', relative_index.view(-1))
         if stride > 1:
             self.pooling = nn.AvgPool2d(stride, stride=stride)
 
@@ -243,27 +231,13 @@ class AxialAttention_wopos(nn.Module):
         qkv = self.bn_qkv(self.qkv_transform(x))
         q, k, v = torch.split(qkv.reshape(N * W, self.groups, self.group_planes * 2, H), [self.group_planes // 2, self.group_planes // 2, self.group_planes], dim=2)
 
-        # Calculate position embedding
-        # all_embeddings = torch.index_select(self.relative, 1, self.flatten_index).view(self.group_planes * 2, self.kernel_size, self.kernel_size)
-        # q_embedding, k_embedding, v_embedding = torch.split(all_embeddings, [self.group_planes // 2, self.group_planes // 2, self.group_planes], dim=0)
-        # qr = torch.einsum('bgci,cij->bgij', q, q_embedding)
-        # kr = torch.einsum('bgci,cij->bgij', k, k_embedding).transpose(2, 3)
         qk = torch.einsum('bgci, bgcj->bgij', q, k)
-        # qr = q
-        # kr = k.transpose(2, 3)
-        # # print(qk.shape, qr.shape, kr.shape)
-        # stacked_similarity = torch.cat([qk, qk, qk], dim=1)
+
         stacked_similarity = self.bn_similarity(qk).reshape(N * W, 1, self.groups, H, H).sum(dim=1).contiguous()
-        #stacked_similarity = self.bn_qr(qr) + self.bn_kr(kr) + self.bn_qk(qk)
-        # (N, groups, H, H, W)
-        # import pdb
-        # pdb.set_trace()
+
         similarity = F.softmax(stacked_similarity, dim=3)
         sv = torch.einsum('bgij,bgcj->bgci', similarity, v)
-        # sve = torch.einsum('bgij,bgcj->bgci', similarity, v)
-        # stacked_output = torch.cat([sv, sve], dim=-1).view(N * W, self.out_planes * 2, H)
-        # import pdb
-        # pdb.set_trace()
+
         sv = sv.reshape(N*W,self.out_planes * 1, H).contiguous()
         output = self.bn_output(sv).reshape(N, W, self.out_planes, 1, H).sum(dim=-2).contiguous()
 
@@ -402,17 +376,7 @@ class AxialBlock_wopos(nn.Module):
         # print(out.shape)
         out = self.hight_block(out)
         out = self.width_block(out)
-        # print(self.stride)
-        # out = self.conv1(out)
-        # if self.stride == 2:
-        #     out = F.max_pool2d(out,2,2)
-        # if self.downsample is not None:
-        #     identity = self.downsample(x)
-        #     # out = F.max_pool2d(out,2,2)
-        # # out = self.conv1(out)
 
-        # # print(out.shape)
-        # # out = 
         out = self.relu(out)
 
         out = self.conv_up(out)
