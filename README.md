@@ -48,6 +48,12 @@ conda env create -f environment.yml
 conda activate medt
 ```
 
+To install all the dependencies using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
 ### Links for downloading the public Datasets:
 
 1) GLAS Dataset - <a href="https://warwick.ac.uk/fac/sci/dcs/research/tia/glascontest/"> Link (Original) </a> | <a href = "https://drive.google.com/drive/folders/1dwhjqE0vC0KL_siGUeqMUq08KyO1bPKH?usp=sharing"> Link (Resized) </a> 
@@ -111,7 +117,11 @@ Change modelname to MedT or logo to train them
 python test.py --loaddirec "./saved_model_path/model_name.pth" --val_dataset "test dataset directory" --direc 'path for results to be saved' --batch_size 1 --modelname "gatedaxialunet" --imgsize 128 --gray "no"
 ```
 
-The results including predicted segmentations maps will be placed in the results folder along with the model weights. Run the performance metrics code in MATLAB for calculating F1 Score and mIoU.
+The results including predicted segmentations maps will be placed in the results folder along with the model weights. Run the performance metrics code in MATLAB for calculating F1 Score and mIoU. 
+
+### Notes:
+
+Note that these experiments were conducted in Nvidia Quadro 8000 with 48 GB memory. 
 
 ### Acknowledgement:
 
