@@ -1,10 +1,10 @@
 # Medical-Transformer
 
- <a href="https://arxiv.org/abs/2006.04878"> </a> 
+ <a href="https://arxiv.org/abs/2102.10662"> </a> 
 
 Pytorch Code for the paper 
 ["Medical Transformer: Gated Axial-Attention for
-Medical Image Segmentation"](https://arxiv.org/)
+Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf)
 
 ### About this repo:
 
