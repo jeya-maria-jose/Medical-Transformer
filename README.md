@@ -129,6 +129,13 @@ The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/p
 
 # Citation:
 
-To add
+```bash
+@article{valanarasu2021medical,
+  title={Medical Transformer: Gated Axial-Attention for Medical Image Segmentation},
+  author={Valanarasu, Jeya Maria Jose and Oza, Poojan and Hacihaliloglu, Ilker and Patel, Vishal M},
+  journal={arXiv preprint arXiv:2102.10662},
+  year={2021}
+}
+```
 
 Open an issue or mail me directly in case of any queries or suggestions. 

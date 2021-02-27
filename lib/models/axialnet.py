@@ -489,9 +489,7 @@ class ResAxialAttentionUNet(nn.Module):
         x3 = self.layer3(x2)
         # print(x3.shape)
         x4 = self.layer4(x3)
-        # print(x4.shape)
-        # pdb.set_trace()
-        # Transposed Convolution Decoder
+
         x = F.relu(F.interpolate(self.decoder1(x4), scale_factor=(2,2), mode ='bilinear'))
         x = torch.add(x, x4)
         x = F.relu(F.interpolate(self.decoder2(x) , scale_factor=(2,2), mode ='bilinear'))
