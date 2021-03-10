@@ -45,7 +45,6 @@ parser.add_argument('--weight-decay', '--wd', default=1e-5, type=float,
 parser.add_argument('--train_dataset', required=True, type=str)
 parser.add_argument('--val_dataset', type=str)
 parser.add_argument('--save_freq', type=int,default = 10)
-
 parser.add_argument('--modelname', default='MedT', type=str,
                     help='type of model')
 parser.add_argument('--cuda', default="on", type=str, 
@@ -62,6 +61,8 @@ parser.add_argument('--crop', type=int, default=None)
 parser.add_argument('--imgsize', type=int, default=None)
 parser.add_argument('--device', default='cuda', type=str)
 parser.add_argument('--gray', default='no', type=str)
+parser.add_argument('--loaddirec', default='load', type=str)
+parser.add_argument('--last', default=0, type=int)
 
 args = parser.parse_args()
 gray_ = args.gray
@@ -107,6 +108,8 @@ if torch.cuda.device_count() > 1:
   model = nn.DataParallel(model,device_ids=[0,1]).cuda()
 model.to(device)
 
+model.load_state_dict(torch.load(args.loaddirec))
+
 criterion = LogNLLLoss()
 optimizer = torch.optim.Adam(list(model.parameters()), lr=args.learning_rate,
                              weight_decay=1e-5)
@@ -123,7 +126,7 @@ torch.cuda.manual_seed(seed)
 # random.seed(seed)
 
 
-for epoch in range(args.epochs):
+for epoch in range(args.last + 1, args.epochs):
 
     epoch_running_loss = 0
     
