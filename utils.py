@@ -148,10 +148,10 @@ class ImageToImage2D(Dataset):
         # print(os.path.join(self.input_path, image_filename))
         # print(os.path.join(self.output_path, image_filename[: -3] + "png"))
         # print(os.path.join(self.input_path, image_filename))
-        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (128, 128))
+        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (256, 256))
         # print(image.shape)
         # read mask image
-        mask = cv2.resize(cv2.imread(os.path.join(self.output_path, image_filename[: -3] + "png"),0), (128, 128))
+        mask = cv2.resize(cv2.imread(os.path.join(self.output_path, image_filename[: -3] + "png"),0), (256, 256))
         
         mask[mask<=127] = 0
         mask[mask>127] = 1
@@ -218,7 +218,7 @@ class Image2D(Dataset):
 
         image_filename = self.images_list[idx]
 
-        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (128, 128))
+        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (256, 256))
 
         # image = np.transpose(image,(2,0,1))
 

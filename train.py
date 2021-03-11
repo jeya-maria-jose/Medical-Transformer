@@ -125,20 +125,17 @@ torch.cuda.manual_seed(seed)
 # torch.set_deterministic(True)
 # random.seed(seed)
 
-
+prev = 10**9
 for epoch in range(args.last + 1, args.epochs):
 
     epoch_running_loss = 0
     
     for batch_idx, (X_batch, y_batch, *rest) in enumerate(dataloader):        
         
-        
-
         X_batch = Variable(X_batch.to(device ='cuda'))
         y_batch = Variable(y_batch.to(device='cuda'))
         
         # ===================forward=====================
-        
 
         output = model(X_batch)
 
@@ -217,7 +214,6 @@ for epoch in range(args.last + 1, args.epochs):
             # cv2.imwrite(fulldir+'/gt_{}.png'.format(count), yval[0,:,:])
         fulldir = direc+"/{}/".format(epoch)
         torch.save(model.state_dict(), fulldir+args.modelname+".pth")
+    if prev > epoch_running_loss:
         torch.save(model.state_dict(), direc+"final_model.pth")
-            
-
-
+        prerv = epoch_running_loss
