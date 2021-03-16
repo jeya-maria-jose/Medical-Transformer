@@ -74,7 +74,7 @@ Train Folder-----
           0001.png
           0002.png
           .......
-      label---
+      labelcol---
           0001.png
           0002.png
           .......
@@ -92,7 +92,7 @@ Test Folder-----
           0001.png
           0002.png
           .......
-      label---
+      labelcol---
           0001.png
           0002.png
           .......
