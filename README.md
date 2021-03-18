@@ -6,6 +6,8 @@ Pytorch Code for the paper
 ["Medical Transformer: Gated Axial-Attention for
 Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf)
 
+Google Colab: ["Link"](https://colab.research.google.com/drive/1d9DAXZl6uukX4sqRiDF5_4l6ZB_xOkJj?usp=sharing)
+
 ### About this repo:
 
 This repo hosts the code for the following networks:
@@ -125,7 +127,7 @@ Note that these experiments were conducted in Nvidia Quadro 8000 with 48 GB memo
 
 ### Acknowledgement:
 
-The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="https://github.com/csrhddlam/axial-deeplab">axial-deeplab</a>.
+The dataloader code is inspired from <a href="https://github.com/cosmic-cortex/pytorch-UNet"> pytorch-UNet </a>. The axial attention code is developed from <a href="https://github.com/csrhddlam/axial-deeplab">axial-deeplab</a>. Thanks to ["Pavan"](https://analyticsindiamag.com/author/pavan-kandruanalyticsindiamag-com/) for the Google Colab guide.
 
 # Citation:
 
