@@ -135,11 +135,10 @@ for batch_idx, (X_batch, y_batch, *rest) in enumerate(valloader):
     
     del X_batch, y_batch,tmp,tmp2, y_out
 
-    # count = count + 1
     yHaT[yHaT==1] =255
     yval[yval==1] =255
     fulldir = direc+"/"
-    # print(fulldir+image_filename)
+    
     if not os.path.isdir(fulldir):
         
         os.makedirs(fulldir)
