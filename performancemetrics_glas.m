@@ -62,22 +62,13 @@ for i = st:st+N
        end
    end
    
-   %if (tp~=0)
-   %    F = (2*tp)/(2*tp+fp+fn);
-   %    MIU=[MIU,(tp*1.0/uni)];
-   %    PA=[PA,(tp*1.0/ttp)];
-   %   Fsc=[Fsc;[i,F]];
    
    if (tp~=0)
        F = (2*tp)/(2*tp+fp+fn);
        MIU=[MIU,(tp*1.0/uni)];
        PA=[PA,(tp*1.0/ttp)];
        Fsc=[Fsc;[i,F]];
-   
-    % elseif (lab==0)
-    %   MIU=[MIU,1];
-    %   PA=[PA,1];
-    %   Fsc=[Fsc;[i,1]];
+  
    else
        MIU=[MIU,1];
        PA=[PA,1];
@@ -103,12 +94,3 @@ bestmiu
 bestpa
 bestep
 
-% plot(Fsc(:,1),Fsc(:,2),'-*')
-% hold on
-% plot(Fsc(:,1),Fsc1(:,2),'-s')
-% hold off
-% figure();plot(Fsc(:,1),PA,'-*');hold on
-% plot(Fsc(:,1),PA1,'-s');hold off
-% Fsc1=Fsc;
-% MIU1=MIU;
-% PA1=PA;
