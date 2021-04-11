@@ -64,10 +64,6 @@ for i = st:st+N
        MIU=[MIU,(tp*1.0/uni)];
        PA=[PA,(tp*1.0/ttp)];
        Fsc=[Fsc;[i,F]];
-   % elseif (lab==0)
-    %   MIU=[MIU,1];
-    %   PA=[PA,1];
-    %   Fsc=[Fsc;[i,1]];
    else
        MIU=[MIU,1];
        PA=[PA,1];
