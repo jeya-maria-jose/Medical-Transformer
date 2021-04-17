@@ -45,7 +45,6 @@ parser.add_argument('--weight-decay', '--wd', default=1e-5, type=float,
 parser.add_argument('--train_dataset', required=True, type=str)
 parser.add_argument('--val_dataset', type=str)
 parser.add_argument('--save_freq', type=int,default = 10)
-
 parser.add_argument('--modelname', default='MedT', type=str,
                     help='type of model')
 parser.add_argument('--cuda', default="on", type=str, 
@@ -62,6 +61,8 @@ parser.add_argument('--crop', type=int, default=None)
 parser.add_argument('--imgsize', type=int, default=None)
 parser.add_argument('--device', default='cuda', type=str)
 parser.add_argument('--gray', default='no', type=str)
+parser.add_argument('--loaddirec', default='load', type=str)
+parser.add_argument('--last', default=0, type=int)
 
 args = parser.parse_args()
 gray_ = args.gray
@@ -107,6 +108,8 @@ if torch.cuda.device_count() > 1:
   model = nn.DataParallel(model,device_ids=[0,1]).cuda()
 model.to(device)
 
+model.load_state_dict(torch.load(args.loaddirec))
+
 criterion = LogNLLLoss()
 optimizer = torch.optim.Adam(list(model.parameters()), lr=args.learning_rate,
                              weight_decay=1e-5)
@@ -122,20 +125,17 @@ torch.cuda.manual_seed(seed)
 # torch.set_deterministic(True)
 # random.seed(seed)
 
-
-for epoch in range(args.epochs):
+prev = 10**9
+for epoch in range(args.last + 1, args.epochs):
 
     epoch_running_loss = 0
     
     for batch_idx, (X_batch, y_batch, *rest) in enumerate(dataloader):        
         
-        
-
         X_batch = Variable(X_batch.to(device ='cuda'))
         y_batch = Variable(y_batch.to(device='cuda'))
         
         # ===================forward=====================
-        
 
         output = model(X_batch)
 
@@ -214,7 +214,6 @@ for epoch in range(args.epochs):
             # cv2.imwrite(fulldir+'/gt_{}.png'.format(count), yval[0,:,:])
         fulldir = direc+"/{}/".format(epoch)
         torch.save(model.state_dict(), fulldir+args.modelname+".pth")
+    if prev > epoch_running_loss:
         torch.save(model.state_dict(), direc+"final_model.pth")
-            
-
-
+        prerv = epoch_running_loss

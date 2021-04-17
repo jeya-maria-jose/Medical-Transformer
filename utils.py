@@ -128,7 +128,7 @@ class ImageToImage2D(Dataset):
     def __init__(self, dataset_path: str, joint_transform: Callable = None, one_hot_mask: int = False) -> None:
         self.dataset_path = dataset_path
         self.input_path = os.path.join(dataset_path, 'img')
-        self.output_path = os.path.join(dataset_path, 'labelcol')
+        self.output_path = os.path.join(dataset_path, 'label')
         self.images_list = os.listdir(self.input_path)
         self.one_hot_mask = one_hot_mask
 
@@ -143,15 +143,15 @@ class ImageToImage2D(Dataset):
 
     def __getitem__(self, idx):
         image_filename = self.images_list[idx]
-        #print(image_filename[: -3])
+        # print(image_filename)
         # read image
         # print(os.path.join(self.input_path, image_filename))
         # print(os.path.join(self.output_path, image_filename[: -3] + "png"))
         # print(os.path.join(self.input_path, image_filename))
-        image = cv2.imread(os.path.join(self.input_path, image_filename))
+        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (256, 256))
         # print(image.shape)
         # read mask image
-        mask = cv2.imread(os.path.join(self.output_path, image_filename[: -3] + "png"),0)
+        mask = cv2.resize(cv2.imread(os.path.join(self.output_path, image_filename[: -3] + "png"),0), (256, 256))
         
         mask[mask<=127] = 0
         mask[mask>127] = 1
@@ -218,7 +218,7 @@ class Image2D(Dataset):
 
         image_filename = self.images_list[idx]
 
-        image = cv2.imread(os.path.join(self.input_path, image_filename))
+        image = cv2.resize(cv2.imread(os.path.join(self.input_path, image_filename)), (256, 256))
 
         # image = np.transpose(image,(2,0,1))
 
