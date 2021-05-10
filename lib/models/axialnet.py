@@ -512,6 +512,16 @@ class medt_net(nn.Module):
                  groups=8, width_per_group=64, replace_stride_with_dilation=None,
                  norm_layer=None, s=0.125, img_size = 128,imgchan = 3):
         super(medt_net, self).__init__()
+    
+        img_axis_parts=4 #could be used as param
+
+        self.img_size = img_size
+        self.img_axis_parts = img_axis_parts
+        self.img_size_p = int(img_size / img_axis_parts)
+
+        assert not img_size % self.img_size_p, "img size {} can not be split equally into {} parts".format(img_size, img_axis_parts)
+        assert not self.img_size_p % 8, "img part size {} must be divisible by 8 in order to create local branch blocks".format(self.img_size_p)
+        
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         self._norm_layer = norm_layer
@@ -567,14 +577,12 @@ class medt_net(nn.Module):
 
         self.relu_p = nn.ReLU(inplace=True)
 
-        img_size_p = img_size // 4
-
-        self.layer1_p = self._make_layer(block_2, int(128 * s), layers[0], kernel_size= (img_size_p//2))
-        self.layer2_p = self._make_layer(block_2, int(256 * s), layers[1], stride=2, kernel_size=(img_size_p//2),
+        self.layer1_p = self._make_layer(block_2, int(128 * s), layers[0], kernel_size= (self.img_size_p//2))
+        self.layer2_p = self._make_layer(block_2, int(256 * s), layers[1], stride=2, kernel_size=(self.img_size_p//2),
                                        dilate=replace_stride_with_dilation[0])
-        self.layer3_p = self._make_layer(block_2, int(512 * s), layers[2], stride=2, kernel_size=(img_size_p//4),
+        self.layer3_p = self._make_layer(block_2, int(512 * s), layers[2], stride=2, kernel_size=(self.img_size_p//4),
                                        dilate=replace_stride_with_dilation[1])
-        self.layer4_p = self._make_layer(block_2, int(1024 * s), layers[3], stride=2, kernel_size=(img_size_p//8),
+        self.layer4_p = self._make_layer(block_2, int(1024 * s), layers[3], stride=2, kernel_size=(self.img_size_p//8),
                                        dilate=replace_stride_with_dilation[2])
         
         # Decoder
@@ -656,12 +664,14 @@ class medt_net(nn.Module):
 
         # y_out = torch.ones((1,2,128,128))
         x_loc = x.clone()
+        img_size_p = self.img_size_p
         # x = F.relu(F.interpolate(self.decoder5(x) , scale_factor=(2,2), mode ='bilinear'))
         #start 
-        for i in range(0,4):
-            for j in range(0,4):
+        for i in range(0,self.img_axis_parts):
+            for j in range(0,self.img_axis_parts):
 
-                x_p = xin[:,:,32*i:32*(i+1),32*j:32*(j+1)]
+                x_p = xin[:,:,img_size_p*i:img_size_p*(i+1),img_size_p*j:img_size_p*(j+1)]
+            
                 # begin patch wise
                 x_p = self.conv1_p(x_p)
                 x_p = self.bn1_p(x_p)
@@ -697,7 +707,7 @@ class medt_net(nn.Module):
                 x_p = torch.add(x_p, x1_p)
                 x_p = F.relu(F.interpolate(self.decoder5_p(x_p) , scale_factor=(2,2), mode ='bilinear'))
                 
-                x_loc[:,:,32*i:32*(i+1),32*j:32*(j+1)] = x_p
+                x_loc[:,:,img_size_p*i:img_size_p*(i+1),img_size_p*j:img_size_p*(j+1)] = x_p
 
         x = torch.add(x,x_loc)
         x = F.relu(self.decoderf(x))
