@@ -30,7 +30,7 @@ erate on the whole image and patches to learn global and local features,
 respectively. The proposed Medical Transformer (MedT) uses LoGo training strategy on Gated Axial Attention U-Net.
 
 <p align="center">
-  <img src="img/arch.png" width="800"/>
+  <img src="img/medt1.png" width="800"/>
 </p>
 
 ### Using the code:
