@@ -6,7 +6,11 @@ Pytorch code for the paper
 ["Medical Transformer: Gated Axial-Attention for
 Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf), MICCAI 2021
 
-Google Colab: [Link](https://colab.research.google.com/drive/1d9DAXZl6uukX4sqRiDF5_4l6ZB_xOkJj?usp=sharing)
+Google Colab (Unofficial): [Link](https://colab.research.google.com/drive/1d9DAXZl6uukX4sqRiDF5_4l6ZB_xOkJj?usp=sharing)
+
+### News:
+1) Pretrained models will be made available soon (tentatively early September).
+2) Google Colab Code is an unofficial implementation for quick train/test. Please follow original code for proper training.
 
 ### About this repo:
 
