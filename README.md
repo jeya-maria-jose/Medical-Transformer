@@ -6,6 +6,8 @@ Pytorch code for the paper
 ["Medical Transformer: Gated Axial-Attention for
 Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf), MICCAI 2021
 
+["Paper"](https://arxiv.org/pdf/2102.10662.pdf) | ["Poster"](https://drive.google.com/file/d/1gMjc5guT_dYQFT6TEEwdHAFKwG5XkEc9/view?usp=sharing)
+
 ### About this repo:
 
 This repo hosts the code for the following networks:
