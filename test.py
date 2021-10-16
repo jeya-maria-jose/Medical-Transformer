@@ -15,7 +15,6 @@ import torch.utils.data as data
 from PIL import Image
 import numpy as np
 from torchvision.utils import save_image
-import torch
 import torch.nn.init as init
 from utils import JointTransform2D, ImageToImage2D, Image2D
 from metrics import jaccard_index, f1_score, LogNLLLoss,classwise_f1
@@ -84,7 +83,7 @@ val_dataset = ImageToImage2D(args.val_dataset, tf_val)
 predict_dataset = Image2D(args.val_dataset)
 dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
 valloader = DataLoader(val_dataset, 1, shuffle=True)
-
+softmax = nn.Softmax(dim=1)
 device = torch.device("cuda")
 
 if modelname == "axialunet":
@@ -116,34 +115,28 @@ for batch_idx, (X_batch, y_batch, *rest) in enumerate(valloader):
     X_batch = Variable(X_batch.to(device='cuda'))
     y_batch = Variable(y_batch.to(device='cuda'))
 
-    y_out = model(X_batch)
+    with torch.no_grad():
+        y_out = model(X_batch)
+        y_out = softmax(y_out)
 
-    tmp2 = y_batch.detach().cpu().numpy()
     tmp = y_out.detach().cpu().numpy()
-    tmp[tmp>=0.5] = 1
-    tmp[tmp<0.5] = 0
-    tmp2[tmp2>0] = 1
-    tmp2[tmp2<=0] = 0
-    tmp2 = tmp2.astype(int)
+    tmp[tmp >= 0.5] = 1
+    tmp[tmp < 0.5] = 0
     tmp = tmp.astype(int)
 
     # print(np.unique(tmp2))
     yHaT = tmp
-    yval = tmp2
-
-    epsilon = 1e-20
     
-    del X_batch, y_batch,tmp,tmp2, y_out
+    del X_batch, y_batch, tmp, y_out
 
-    yHaT[yHaT==1] =255
-    yval[yval==1] =255
+    yHaT[yHaT == 1] = 255
     fulldir = direc+"/"
     
     if not os.path.isdir(fulldir):
         
         os.makedirs(fulldir)
    
-    cv2.imwrite(fulldir+image_filename, yHaT[0,1,:,:])
+    cv2.imwrite(fulldir+image_filename, yHaT[0, 1, :, :])
 
 
 
