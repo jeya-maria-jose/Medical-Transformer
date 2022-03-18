@@ -8,6 +8,10 @@ Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf), MICCAI 2021
 
 [Paper](https://arxiv.org/pdf/2102.10662.pdf) | [Poster](https://drive.google.com/file/d/1gMjc5guT_dYQFT6TEEwdHAFKwG5XkEc9/view?usp=sharing)
 
+## News:
+
+:rocket: : Checkout our latest work [UNeXt](https://arxiv.org/abs/2203.04967), a faster and more efficient segmentation architecture which is also easy to train and implement! \
+
 ### About this repo:
 
 This repo hosts the code for the following networks:
