@@ -10,7 +10,7 @@ Medical Image Segmentation"](https://arxiv.org/pdf/2102.10662.pdf), MICCAI 2021
 
 ## News:
 
-:rocket: : Checkout our latest work [UNeXt](https://arxiv.org/abs/2203.04967), a faster and more efficient segmentation architecture which is also easy to train and implement! \
+:rocket: : Checkout our latest work [UNeXt](https://arxiv.org/abs/2203.04967), a faster and more efficient segmentation architecture which is also easy to train and implement! Code is available [here](https://github.com/jeya-maria-jose/UNeXt-pytorch).
 
 ### About this repo:
 
