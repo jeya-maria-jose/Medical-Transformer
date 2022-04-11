@@ -17,7 +17,6 @@ import torch.utils.data as data
 from PIL import Image
 import numpy as np
 from torchvision.utils import save_image
-import torch
 import torch.nn.init as init
 from utils import JointTransform2D, ImageToImage2D, Image2D
 from metrics import jaccard_index, f1_score, LogNLLLoss,classwise_f1
@@ -110,7 +109,7 @@ model.to(device)
 criterion = LogNLLLoss()
 optimizer = torch.optim.Adam(list(model.parameters()), lr=args.learning_rate,
                              weight_decay=1e-5)
-
+sotfmax = nn.Softmax(dim=1)
 
 pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 print("Total_params: {}".format(pytorch_total_params))
@@ -138,21 +137,6 @@ for epoch in range(args.epochs):
         
 
         output = model(X_batch)
-
-        tmp2 = y_batch.detach().cpu().numpy()
-        tmp = output.detach().cpu().numpy()
-        tmp[tmp>=0.5] = 1
-        tmp[tmp<0.5] = 0
-        tmp2[tmp2>0] = 1
-        tmp2[tmp2<=0] = 0
-        tmp2 = tmp2.astype(int)
-        tmp = tmp.astype(int)
-
-        yHaT = tmp
-        yval = tmp2
-
-        
-
         loss = criterion(output, y_batch)
         
         # ===================backward====================
@@ -181,36 +165,29 @@ for epoch in range(args.epochs):
             X_batch = Variable(X_batch.to(device='cuda'))
             y_batch = Variable(y_batch.to(device='cuda'))
             # start = timeit.default_timer()
-            y_out = model(X_batch)
+            with torch.no_grad():
+                y_out = model(X_batch)
+                y_out = softmax(y_out)
             # stop = timeit.default_timer()
-            # print('Time: ', stop - start) 
-            tmp2 = y_batch.detach().cpu().numpy()
+            # print('Time: ', stop - start)
             tmp = y_out.detach().cpu().numpy()
-            tmp[tmp>=0.5] = 1
-            tmp[tmp<0.5] = 0
-            tmp2[tmp2>0] = 1
-            tmp2[tmp2<=0] = 0
-            tmp2 = tmp2.astype(int)
+            tmp[tmp >= 0.5] = 1
+            tmp[tmp < 0.5] = 0
             tmp = tmp.astype(int)
 
             # print(np.unique(tmp2))
             yHaT = tmp
-            yval = tmp2
 
-            epsilon = 1e-20
-            
-            del X_batch, y_batch,tmp,tmp2, y_out
+            del X_batch, y_batch, tmp, y_out
 
-            
-            yHaT[yHaT==1] =255
-            yval[yval==1] =255
+            yHaT[yHaT == 1] = 255
             fulldir = direc+"/{}/".format(epoch)
             # print(fulldir+image_filename)
             if not os.path.isdir(fulldir):
                 
                 os.makedirs(fulldir)
             
-            cv2.imwrite(fulldir+image_filename, yHaT[0,1,:,:])
+            cv2.imwrite(fulldir+image_filename, yHaT[0, 1, :, :])
             # cv2.imwrite(fulldir+'/gt_{}.png'.format(count), yval[0,:,:])
         fulldir = direc+"/{}/".format(epoch)
         torch.save(model.state_dict(), fulldir+args.modelname+".pth")
