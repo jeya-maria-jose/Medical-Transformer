@@ -127,6 +127,7 @@ for epoch in range(args.epochs):
 
     epoch_running_loss = 0
     
+    model.train()
     for batch_idx, (X_batch, y_batch, *rest) in enumerate(dataloader):        
         
         
@@ -170,7 +171,7 @@ for epoch in range(args.epochs):
         for param in model.parameters():
             param.requires_grad =True
     if (epoch % args.save_freq) ==0:
-
+        model.eval()
         for batch_idx, (X_batch, y_batch, *rest) in enumerate(valloader):
             # print(batch_idx)
             if isinstance(rest[0][0], str):
@@ -181,7 +182,7 @@ for epoch in range(args.epochs):
             X_batch = Variable(X_batch.to(device='cuda'))
             y_batch = Variable(y_batch.to(device='cuda'))
             # start = timeit.default_timer()
-            y_out = model(X_batch)
+            y_out = torch.nn.functional.softmax(model(X_batch), dim=1)
             # stop = timeit.default_timer()
             # print('Time: ', stop - start) 
             tmp2 = y_batch.detach().cpu().numpy()
